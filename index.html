@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishNet - Phishing Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 text-primary">
+                    <i class="fas fa-shield-alt"></i> PhishNet
+                </h1>
+                <p class="lead">Advanced Phishing Detection Platform</p>
+                <p class="text-muted">Identify suspicious websites before they harm you</p>
+            </div>
+        </div>
+
+        <!-- URL Input Form -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form id="urlForm">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control" 
+                                       id="urlInput" 
+                                       placeholder="Enter URL to analyze (e.g., https://example.com)"
+                                       required>
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i> Analyze
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Examples -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-8 text-center">
+                <small class="text-muted">
+                    Try: 
+                    <a href="#" class="example-link" data-url="https://google.com">google.com</a> • 
+                    <a href="#" class="example-link" data-url="http://paypal-verify-security.tk">suspicious URL</a> • 
+                    <a href="#" class="example-link" data-url="http://192.168.1.1/login">IP address</a>
+                </small>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div id="results" style="display: none;">
+                    <!-- Results will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8 text-center">
+                <div id="loading" class="spinner-border text-primary" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-4 bg-light">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">
+                <i class="fas fa-code"></i> Built with Flask & Python • 
+                Phishing Detection Algorithm • Real-time Analysis
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle form submission
+        document.getElementById('urlForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            analyzeUrl();
+        });
+
+        // Handle example links
+        document.querySelectorAll('.example-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('urlInput').value = this.getAttribute('data-url');
+                analyzeUrl();
+            });
+        });
+
+        function analyzeUrl() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) return;
+
+            // Show loading, hide results
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                displayResults(data);
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error analyzing URL: ' + error);
+            });
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (data.error) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> ${data.error}
+                    </div>
+                `;
+            } else {
+                let alertsHtml = '';
+                let warningsHtml = '';
+                let positiveHtml = '';
+
+                if (data.alerts && data.alerts.length > 0) {
+                    alertsHtml = data.alerts.map(alert => 
+                        `<li><i class="fas fa-exclamation-circle text-danger"></i> ${alert}</li>`
+                    ).join('');
+                }
+
+                if (data.warnings && data.warnings.length > 0) {
+                    warningsHtml = data.warnings.map(warning => 
+                        `<li><i class="fas fa-exclamation-triangle text-warning"></i> ${warning}</li>`
+                    ).join('');
+                }
+
+                if (data.positive && data.positive.length > 0) {
+                    positiveHtml = data.positive.map(pos => 
+                        `<li><i class="fas fa-check-circle text-success"></i> ${pos}</li>`
+                    ).join('');
+                }
+
+                resultsDiv.innerHTML = `
+                    <div class="card shadow">
+                        <div class="card-header bg-${data.color} text-white">
+                            <h4 class="mb-0"><i class="fas fa-${getIcon(data.color)}"></i> ${data.risk_level}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Risk Score: ${data.risk_score}/100</h5>
+                                    <p><strong>Domain:</strong> ${data.domain}</p>
+                                    <div class="alert alert-${data.color}">
+                                        <strong>Recommendation:</strong> ${data.recommendation}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="progress mb-3" style="height: 25px;">
+                                        <div class="progress-bar bg-${data.color}" 
+                                             style="width: ${data.risk_score}%">
+                                            ${data.risk_score}%
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Higher score = higher risk</small>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="row mt-3">
+                                ${alertsHtml ? `
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-times-circle text-danger"></i> Critical Alerts</h6>
+                                    <ul class="list-unstyled">${alertsHtml}</ul>
+                                </div>
+                                ` : ''}
+                                
+                                ${warningsHtml ? `
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-exclamation-triangle text-warning"></i> Warnings</h6>
+                                    <ul class="list-unstyled">${warningsHtml}</ul>
+                                </div>
+                                ` : ''}
+                                
+                                ${positiveHtml ? `
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-check-circle text-success"></i> Positive Indicators</h6>
+                                    <ul class="list-unstyled">${positiveHtml}</ul>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function getIcon(color) {
+            switch(color) {
+                case 'danger': return 'skull-crossbones';
+                case 'warning': return 'exclamation-triangle';
+                case 'success': return 'shield-alt';
+                default: return 'info-circle';
+            }
+        }
+    </script>
+</body>
+</html>

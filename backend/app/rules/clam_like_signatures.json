@@ -1,0 +1,5 @@
+[
+  {"name":"suspicious_iframe","pattern":"<iframe[^>]*>"},
+  {"name":"credential_phish_form","pattern":"(input[^>]*type=['\"]password['\"])"},
+  {"name":"fast_redirect_meta","pattern":"<meta[^>]*http-equiv=['\"]refresh['\"]"}
+]

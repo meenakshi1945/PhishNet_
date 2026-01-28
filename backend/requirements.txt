@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pydantic
+requests
+beautifulsoup4
+yara-python
+onnxruntime
+lightgbm
+xgboost
+numpy
+python-magic
+python-multipart
+python-jose
+uvicorn

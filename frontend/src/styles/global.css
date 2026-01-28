@@ -1,4 +1,21 @@
+/* ===== Codédex-inspired design system (original) ===== */
 
+:root {
+  --bg-main: #0f1115;
+  --bg-card: #171a21;
+  --border-soft: #252935;
+
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+
+  --accent: #6366f1; /* soft indigo */
+  --accent-hover: #5458e0;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+}
+
+/* ===== Reset ===== */
 * {
   box-sizing: border-box;
 }
@@ -6,32 +23,50 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #f6f7f8;
-  color: #1c1c1c;
+  background: var(--bg-main);
+  color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* ===== Typography ===== */
-h1 {
-  font-size: 2rem;
+h1, h2, h3 {
   font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 p {
-  font-size: 1rem;
+  color: var(--text-secondary);
   line-height: 1.6;
-  color: #555;
+  margin: 0;
+}
+
+/* ===== Inputs ===== */
+input {
+  font-family: inherit;
+  font-size: 1rem;
+  background: #10131a;
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  outline: none;
+}
+
+input::placeholder {
+  color: #6b7280;
 }
 
 /* ===== Buttons ===== */
 button {
   font-family: inherit;
-  border: none;
   cursor: pointer;
+  border: none;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
+
+button:active {
+  transform: scale(0.98);
+}
+
 
 
 

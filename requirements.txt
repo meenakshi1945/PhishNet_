@@ -1,3 +1,9 @@
 flask
 requests
 urllib3
+fastapi
+uvicorn
+scikit-learn
+joblib
+numpy
+pandas

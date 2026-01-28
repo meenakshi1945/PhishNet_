@@ -1,120 +1,36 @@
-#  PhishNet – A Browser-Native Intelligence Framework for Real-Time Phishing Detection
+PhishNet:
+PhishNet is a phishing detection system designed to identify potentially malicious URLs using machine learning techniques. The project focuses on analyzing URL-based features to distinguish between legitimate and phishing websites, helping improve awareness and prevention of online fraud.
 
+Overview:
+Phishing attacks remain one of the most common cybersecurity threats, often exploiting users through deceptive links. PhishNet aims to provide a simple yet effective approach to phishing detection by leveraging data-driven models and feature extraction methods.
+The project demonstrates the end-to-end workflow of a machine learning solution, from data preprocessing to model evaluation.
 
+Features:
+1) URL-based phishing detection
+2) Feature extraction from raw URLs
+3) Machine learning model training and testing
+4) Clear separation of data handling, model logic, and evaluation
+5) Easy-to-understand and extensible code structure
 
----
+Tech Stack:
+Python,
+Machine Learning (classification models),
+Libraries for data preprocessing and analysis
 
-##  What is PhishNet?
-<<<<<<< HEAD
+How It Works:
+1) URLs are collected and preprocessed
+2) Relevant features are extracted from each URL
+3) A machine learning model is trained on labeled data
+4) The trained model predicts whether a URL is phishing or legitimate
 
-PhishNet is a **real-time phishing detection system** that goes beyond just URLs.  
-It’s a **hybrid intelligence framework** that watches over your web pages like a friendly digital guard dog 
+Use Case:
+PhishNet can be used as a foundational project for understanding phishing detection systems and can be extended into browser plugins, APIs, or larger cybersecurity applications.
 
->  *Think of it as your browser's personal bodyguard against sneaky phishing pages!*
+Future Enhancements:
+Integration with real-time URL scanning, 
+Improved feature engineering,
+Support for deep learning models and 
+Deployment as a web or desktop application
 
----
-
-##  Why PhishNet is Special
-
-| Old School Methods | 🆚 | PhishNet’s Magic  |
-|-------------------|----|---------------------|
-| Only checks URLs | → | Scans **HTML, JavaScript, DOM, and behavior** |
-| Misses hidden scripts | → | Detects **obfuscated payloads & iframes** |
-| No explanations | → | Shows **why** a page is risky |
-| Slow & offline | → | **Real-time + lightweight** on-device inference |
-| URL-only ML | → | **Heuristics + Signatures + Lightweight ML** |
-
----
-
-## How It Works 
-
-1. **You browse** 
-2. PhishNet **sneakily scans** the page 
-3. Engines wake up:
-   -  **Heuristics Engine** – “Hmm, this looks fishy…”
-   -  **Signature Engine** – “I’ve seen this trick before”
-   -  **ML Model** – “My spider-sense is tingling”
-4. You get a **friendly warning + reasons** 
-
----
-
-##  Tech Stack 
-
-| Layer | Tools |
-|-------|-------|
-| Frontend | React / Next.js / Electron |
-| Backend | FastAPI (speedy!) |
-| ML | LightGBM, XGBoost, TF Lite |
-| Signatures | YARA + ClamAV-style patterns |
-| Heuristics | Entropy scanner, redirect tracker, DOM parser |
-
----
-
-##  Key Features
-
--  **Real-time** page analysis  
--  **Multi-layer detection** (not just URLs!)  
--  **Explains** why something is risky  
--  **Lightweight** – runs smoothly on low-resource devices  
--  **Ready for extensions & enterprise use**  
-
----
-## How to Run
-=======
-
-PhishNet is a **real-time phishing detection system** that goes beyond just URLs.  
-It’s a **hybrid intelligence framework** that watches over your web pages like a friendly digital guard dog 
-
->  *Think of it as your browser's personal bodyguard against sneaky phishing pages!*
-
----
-
-##  Why PhishNet is Special
-
-| Old School Methods | 🆚 | PhishNet’s Magic  |
-|-------------------|----|---------------------|
-| Only checks URLs | → | Scans **HTML, JavaScript, DOM, and behavior** |
-| Misses hidden scripts | → | Detects **obfuscated payloads & iframes** |
-| No explanations | → | Shows **why** a page is risky |
-| Slow & offline | → | **Real-time + lightweight** on-device inference |
-| URL-only ML | → | **Heuristics + Signatures + Lightweight ML** |
-
----
-
-## How It Works 
-
-1. **You browse** 
-2. PhishNet **sneakily scans** the page 
-3. Engines wake up:
-   -  **Heuristics Engine** – “Hmm, this looks fishy…”
-   -  **Signature Engine** – “I’ve seen this trick before”
-   -  **ML Model** – “My spider-sense is tingling”
-4. You get a **friendly warning + reasons** 
-
----
-
-##  Tech Stack 
-
-| Layer | Tools |
-|-------|-------|
-| Frontend | React / Next.js / Electron |
-| Backend | FastAPI (speedy!) |
-| ML | LightGBM, XGBoost, TF Lite |
-| Signatures | YARA + ClamAV-style patterns |
-| Heuristics | Entropy scanner, redirect tracker, DOM parser |
-
----
-
-##  Key Features
-
--  **Real-time** page analysis  
--  **Multi-layer detection** (not just URLs!)  
--  **Explains** why something is risky  
--  **Lightweight** – runs smoothly on low-resource devices  
--  **Ready for extensions & enterprise use**  
-
----
-
-
->>>>>>> 6b3fde39026c6ca837ece36a843adcbf6903e1aa
-
+Results and Accuracy:
+The evaluation confirms that URL-based feature extraction combined with machine learning techniques provides a reliable approach for phishing detection.

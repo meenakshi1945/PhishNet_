@@ -100,7 +100,17 @@
 
         function analyzeUrl() {
             const url = document.getElementById('urlInput').value.trim();
-            if (!url) return;
+            if (!url) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> No input detected. Please enter a URL to proceed scanning.
+                    </div>
+                `;
+                resultsDiv.style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
 
             // Show loading, hide results
             document.getElementById('loading').style.display = 'block';

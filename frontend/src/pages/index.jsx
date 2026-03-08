@@ -1,5 +1,4 @@
 import ScanPanel from "../components/ScanPanel";
-
 export default function Home() {
   return (
     <main
@@ -7,28 +6,32 @@ export default function Home() {
         minHeight: "100vh",
         background: "radial-gradient(ellipse at top, #1b1f2a 0%, #0f1115 60%)",
         padding: "80px 20px",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <div
         style={{
           maxWidth: "900px",
+          width: "100%",
           margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         {/* Header */}
-        <header style={{ marginBottom: "48px" }}>
+        <header style={{ marginBottom: "48px", textAlign: "center" }}>
           <h1 style={{ fontSize: "2.2rem", marginBottom: "10px" }}>
             PhishNet
           </h1>
-          <p style={{ maxWidth: "600px" }}>
+          <p style={{ maxWidth: "600px", margin: "0 auto" }}>
             A lightweight phishing detection system that analyzes URLs using
             machine learning and security heuristics.
           </p>
         </header>
-
         {/* Main tool */}
         <ScanPanel />
-
         {/* Info section */}
         <section
           style={{
@@ -36,6 +39,7 @@ export default function Home() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
             gap: "24px",
+            width: "100%",
           }}
         >
           <InfoCard
@@ -55,7 +59,6 @@ export default function Home() {
     </main>
   );
 }
-
 function InfoCard({ title, text }) {
   return (
     <div

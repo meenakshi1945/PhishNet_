@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-/* Animation styles */
 const animationStyles = `
 @keyframes fadeSlideIn {
   from {
@@ -13,23 +11,20 @@ const animationStyles = `
   }
 }
 `;
-
 export default function ScanPanel() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const handleScan = async () => {
     if (!url.trim()) {
-      setError("Please enter a valid URL.");
+      setError("No input detected. Please enter a URL to proceed scanning.");
+      setResult(null);
       return;
     }
-
     setLoading(true);
     setError("");
     setResult(null);
-
     try {
       const response = await fetch(
         "http://localhost:8000/api/scan/scan-light",
@@ -41,11 +36,9 @@ export default function ScanPanel() {
           body: JSON.stringify({ url }),
         }
       );
-
       if (!response.ok) {
         throw new Error("Scan failed");
       }
-
       const data = await response.json();
       setResult(data.result);
     } catch (err) {
@@ -54,15 +47,14 @@ export default function ScanPanel() {
       setLoading(false);
     }
   };
-
   return (
     <>
       <style>{animationStyles}</style>
-
       <section
         style={{
           width: "100%",
           maxWidth: "520px",
+          margin: "0 auto",
           background: "var(--bg-card)",
           padding: "32px",
           borderRadius: "var(--radius-lg)",
@@ -70,13 +62,10 @@ export default function ScanPanel() {
           boxShadow: "0 25px 60px rgba(0,0,0,0.45)",
         }}
       >
-        {/* Header */}
-        <h2 style={{ marginBottom: "6px" }}>PhishNet</h2>
-        <p style={{ marginBottom: "28px" }}>
+        <h2 style={{ marginBottom: "6px", textAlign: "center" }}>PhishNet</h2>
+        <p style={{ marginBottom: "28px", textAlign: "center" }}>
           Learn whether a URL is safe or potentially malicious.
         </p>
-
-        {/* Input */}
         <input
           type="text"
           placeholder="Paste a URL to scan"
@@ -89,8 +78,6 @@ export default function ScanPanel() {
             marginBottom: "16px",
           }}
         />
-
-        {/* Button */}
         <button
           onClick={handleScan}
           disabled={loading}
@@ -112,8 +99,6 @@ export default function ScanPanel() {
         >
           {loading ? "Scanning…" : "Scan URL"}
         </button>
-
-        {/* Micro-copy */}
         <p
           style={{
             marginTop: "10px",
@@ -124,15 +109,11 @@ export default function ScanPanel() {
         >
           URLs are analyzed securely using our detection engine.
         </p>
-
-        {/* Error */}
         {error && (
-          <p style={{ color: "#f87171", marginTop: "16px" }}>
+          <p style={{ color: "#f87171", marginTop: "16px", textAlign: "center" }}>
             {error}
           </p>
         )}
-
-        {/* Result */}
         {result && (
           <div
             style={{
@@ -149,11 +130,9 @@ export default function ScanPanel() {
                 ? "🚨 Phishing Detected"
                 : "✅ Safe URL"}
             </p>
-
             <p style={{ marginTop: "6px" }}>
               Confidence: {(result.confidence * 100).toFixed(2)}%
             </p>
-
             {result.reasons && result.reasons.length > 0 && (
               <ul style={{ marginTop: "10px", paddingLeft: "20px" }}>
                 {result.reasons.map((reason, index) => (

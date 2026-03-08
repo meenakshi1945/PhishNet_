@@ -1,20 +1,28 @@
+import os
+
 import pandas as pd
-from features import extract_features_from_url
 
-# Load raw URLs
-df = pd.read_csv("urls.csv")
+from features import FEATURE_COLUMNS, extract_features_from_url
 
-rows = []
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+URLS_CSV = os.path.join(BASE_DIR, "urls.csv")
+FEATURES_CSV = os.path.join(BASE_DIR, "features.csv")
 
-for _, row in df.iterrows():
-    feats = extract_features_from_url(row["url"])
-    feats["label"] = row["label"]
-    rows.append(feats)
 
-# Create feature dataframe
-features_df = pd.DataFrame(rows)
+def main():
+    df = pd.read_csv(URLS_CSV)
+    rows = []
 
-# Save features
-features_df.to_csv("features.csv", index=False)
+    for _, row in df.iterrows():
+        feats = extract_features_from_url(row["url"])
+        ordered = {col: feats.get(col, 0.0) for col in FEATURE_COLUMNS}
+        ordered["label"] = int(row["label"])
+        rows.append(ordered)
 
-print("✅ features.csv generated successfully")
+    features_df = pd.DataFrame(rows)
+    features_df.to_csv(FEATURES_CSV, index=False)
+    print(f"Generated feature dataset: {FEATURES_CSV}")
+
+
+if __name__ == "__main__":
+    main()

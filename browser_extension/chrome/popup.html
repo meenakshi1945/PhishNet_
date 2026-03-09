@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhishNet Quick Scan</title>
+    <style>
+      :root {
+        --bg: #0e131a;
+        --card: #131a23;
+        --text: #edf2f7;
+        --muted: #95a2b3;
+        --accent: #0ea5e9;
+        --danger: #ef4444;
+        --ok: #22c55e;
+      }
+      body {
+        margin: 0;
+        width: 360px;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.4 Segoe UI, system-ui, sans-serif;
+      }
+      .wrap {
+        padding: 12px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .url {
+        background: var(--card);
+        border-radius: 8px;
+        padding: 8px;
+        word-break: break-all;
+        color: var(--muted);
+        margin-bottom: 10px;
+        min-height: 36px;
+      }
+      input[type="text"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background: #0f1722;
+        color: var(--text);
+      }
+      button {
+        width: 100%;
+        border: 0;
+        border-radius: 8px;
+        padding: 10px;
+        cursor: pointer;
+        color: white;
+        font-weight: 600;
+        background: var(--accent);
+      }
+      .status {
+        margin-top: 10px;
+        color: var(--muted);
+      }
+      .result {
+        margin-top: 10px;
+        background: var(--card);
+        border-radius: 8px;
+        padding: 10px;
+      }
+      .result strong {
+        color: var(--text);
+      }
+      .bad {
+        color: var(--danger);
+      }
+      .good {
+        color: var(--ok);
+      }
+      ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>PhishNet Quick Scan</h1>
+      <div id="url" class="url">Loading tab URL...</div>
+      <input id="manualUrl" type="text" placeholder="Paste or type a URL to scan (optional)" />
+      <button id="scanBtn" type="button">Scan URL</button>
+      <div id="status" class="status"></div>
+      <div id="result" class="result" hidden></div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

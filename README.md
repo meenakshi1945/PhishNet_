@@ -34,3 +34,10 @@ Deployment as a web or desktop application
 
 Results and Accuracy:
 The evaluation confirms that URL-based feature extraction combined with machine learning techniques provides a reliable approach for phishing detection.
+
+Threat Intel (Optional):
+1) Local denylist:
+- Add malicious domains to `backend/app/rules/domain_denylist.txt` (one per line)
+2) Google Safe Browsing:
+- Set env var `GOOGLE_SAFE_BROWSING_API_KEY`
+- If configured, `/api/scan/scan-light` includes threat-intel checks and can force block actions on confirmed matches.

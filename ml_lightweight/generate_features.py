@@ -1,4 +1,5 @@
 import os
+import argparse
 
 import pandas as pd
 
@@ -10,7 +11,15 @@ FEATURES_CSV = os.path.join(BASE_DIR, "features.csv")
 
 
 def main():
-    df = pd.read_csv(URLS_CSV)
+    parser = argparse.ArgumentParser(description="Generate numeric feature CSV from URL dataset.")
+    parser.add_argument("--input", default=URLS_CSV, help="Input URLs CSV path")
+    parser.add_argument("--output", default=FEATURES_CSV, help="Output features CSV path")
+    args = parser.parse_args()
+
+    df = pd.read_csv(args.input)
+    if "url" not in df.columns or "label" not in df.columns:
+        raise ValueError(f"{args.input} must include 'url' and 'label' columns")
+
     rows = []
 
     for _, row in df.iterrows():
@@ -20,8 +29,8 @@ def main():
         rows.append(ordered)
 
     features_df = pd.DataFrame(rows)
-    features_df.to_csv(FEATURES_CSV, index=False)
-    print(f"Generated feature dataset: {FEATURES_CSV}")
+    features_df.to_csv(args.output, index=False)
+    print(f"Generated feature dataset: {args.output}")
 
 
 if __name__ == "__main__":

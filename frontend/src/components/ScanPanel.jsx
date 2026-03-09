@@ -16,6 +16,12 @@ export default function ScanPanel() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const sanitizeInput = (value) => value.replace(/[\r\n\t]/g, " ").trim();
+  const handlePasteAsPlainText = (e) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData("text");
+    setUrl(sanitizeInput(pastedText));
+  };
   const handleScan = async () => {
     if (!url.trim()) {
       setError("No input detected. Please enter a URL to proceed scanning.");
@@ -70,7 +76,12 @@ export default function ScanPanel() {
           type="text"
           placeholder="Paste a URL to scan"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => setUrl(sanitizeInput(e.target.value))}
+          onPaste={handlePasteAsPlainText}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="none"
+          spellCheck={false}
           style={{
             width: "100%",
             padding: "14px",
@@ -107,7 +118,7 @@ export default function ScanPanel() {
             textAlign: "center",
           }}
         >
-          URLs are analyzed securely using our detection engine.
+          Pasted input is handled as plain text only and analyzed by our detection engine.
         </p>
         {error && (
           <p style={{ color: "#f87171", marginTop: "16px", textAlign: "center" }}>
@@ -133,6 +144,16 @@ export default function ScanPanel() {
             <p style={{ marginTop: "6px" }}>
               Confidence: {(result.confidence * 100).toFixed(2)}%
             </p>
+            {result.risk_level && (
+              <p style={{ marginTop: "6px" }}>
+                Risk level: {String(result.risk_level).toUpperCase()}
+              </p>
+            )}
+            {result.recommended_action && (
+              <p style={{ marginTop: "6px" }}>
+                Recommended action: {String(result.recommended_action).replace(/_/g, " ")}
+              </p>
+            )}
             {result.reasons && result.reasons.length > 0 && (
               <ul style={{ marginTop: "10px", paddingLeft: "20px" }}>
                 {result.reasons.map((reason, index) => (

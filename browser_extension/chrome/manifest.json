@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "PhishNet Quick Scan",
+  "version": "0.1.0",
+  "description": "Scan the current tab URL with PhishNet.",
+  "permissions": ["tabs", "activeTab"],
+  "host_permissions": ["http://localhost:8000/*"],
+  "action": {
+    "default_title": "PhishNet Quick Scan",
+    "default_popup": "popup.html"
+  }
+}

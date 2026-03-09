@@ -3,6 +3,7 @@ import numpy as np
 from typing import Tuple
 import sys
 import os
+from app.core.threat_intel import lookup_threat_intel
 
 ML_LIGHT_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml_lightweight")
@@ -39,5 +40,23 @@ def lightweight_ml_scan(url: str):
     Lightweight, explainable ML-based phishing detection.
     Returns label, confidence, and reasons.
     """
-    return predict_url(url)
+    result = predict_url(url)
+    intel = lookup_threat_intel(url)
+    result["threat_intel"] = intel
+
+    if intel.get("matched"):
+        result["label"] = "phishing"
+        result["confidence"] = round(max(float(result.get("confidence", 0.0)), 0.97), 4)
+        result["risk_level"] = "critical"
+        result["recommended_action"] = "block_and_investigate"
+        tags = list(result.get("analysis_tags", []))
+        tags.append("threat_intel_match")
+        result["analysis_tags"] = sorted(set(tags))
+        reasons = list(result.get("reasons", []))
+        reasons.insert(0, "Threat-intel feed flagged this URL as malicious.")
+        for reason in intel.get("reasons", []):
+            reasons.append(reason)
+        result["reasons"] = reasons[:6]
+
+    return result
 

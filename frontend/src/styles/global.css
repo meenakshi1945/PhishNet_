@@ -15,7 +15,6 @@
 * {
   box-sizing: border-box;
 }
-
 html, body {
   margin: 0;
   padding: 0;
@@ -33,7 +32,6 @@ p {
   line-height: 1.6;
   margin: 0;
 }
-
 input {
   font-family: inherit;
   font-size: 1rem;
@@ -42,7 +40,6 @@ input {
   border: 1px solid var(--border-soft);
   outline: none;
 }
-
 input::placeholder {
   color: #6b7280;
 }
@@ -52,7 +49,6 @@ button {
   border: none;
   transition: background 0.2s ease, transform 0.1s ease;
 }
-
 button:active {
   transform: scale(0.98);
 }

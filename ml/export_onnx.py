@@ -3,13 +3,11 @@ from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 import joblib
 from pathlib import Path
-
 p = Path("ml_model/lgb_model.pkl")
 if not p.exists():
     print("Train first: python train.py")
 else:
     bst = joblib.load(str(p))
-    
     from sklearn.linear_model import LogisticRegression
     X = np.random.rand(100,3).astype("float32")
     y = (X[:,1] > 0.5).astype(int)

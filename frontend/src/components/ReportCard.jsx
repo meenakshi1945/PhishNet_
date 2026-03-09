@@ -1,6 +1,5 @@
 export default function ReportCard({ report }) {
   if (!report) return null;
-
   function getRiskMeter(score) {
     if (score < 0.35) return { label: "Benign", blocks: 2 };
     if (score < 0.55) return { label: "Low", blocks: 3 };
@@ -8,9 +7,7 @@ export default function ReportCard({ report }) {
     if (score < 0.85) return { label: "High", blocks: 5 };
     return { label: "Critical", blocks: 6 };
   }
-
   const { label, blocks } = getRiskMeter(report.final_score);
-
   return (
     <div
       style={{
@@ -27,16 +24,13 @@ export default function ReportCard({ report }) {
       }}
     >
       <h2 style={{ margin: 0 }}>Output</h2>
-
       <div>
         <strong>Risk Score: </strong>
         {report.final_score}
       </div>
-
       {/* RISK METER BAR */}
       <div style={{ marginTop: "10px" }}>
         <strong>Risk Meter:</strong>
-
         <div
           style={{
             marginTop: "8px",
